@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": "python3 ./hooks/evidence_rule_cursor.py" }
+    ]
+  }
+}

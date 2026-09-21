@@ -1,0 +1,33 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run hook contract tests
+        run: bash tests/run.sh
+      - name: Validate manifests are parseable JSON
+        run: |
+          python3 -c "import json; json.load(open('.claude-plugin/plugin.json'))"
+          python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))"
+          python3 -c "import json; json.load(open('.codex-plugin/plugin.json'))"
+          python3 -c "import json; json.load(open('.cursor-plugin/plugin.json'))"
+          python3 -c "import json; json.load(open('hooks/hooks-cursor.json'))"
+          python3 -c "import json; json.load(open('hooks/hooks.json'))"
+      - name: Manifest versions must agree
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          vs = {p: json.load(open(p))['version'] for p in (
+              '.claude-plugin/plugin.json',
+              '.codex-plugin/plugin.json',
+              '.cursor-plugin/plugin.json')}
+          assert len(set(vs.values())) == 1, f"version mismatch: {vs}"
+          print("all manifests at", next(iter(vs.values())))
+          PY

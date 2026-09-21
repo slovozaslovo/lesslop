@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "lesslop",
+  "description": "Claim tagging for AI coding agents. Checked, or from memory.",
+  "owner": {
+    "name": "Anton B",
+    "url": "https://github.com/slovozaslovo"
+  },
+  "plugins": [
+    {
+      "name": "lesslop",
+      "description": "Tags every claim [proof: path:line] or {unverified}. Fires on every prompt.",
+      "author": {
+        "name": "Anton B"
+      },
+      "category": "productivity",
+      "source": "./",
+      "homepage": "https://github.com/slovozaslovo/lesslop"
+    }
+  ]
+}

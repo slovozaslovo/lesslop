@@ -1,0 +1,20 @@
+{
+  "name": "lesslop",
+  "version": "0.6.0",
+  "description": "Tags every claim [proof: path:line] or {unverified}. Fires on every prompt.",
+  "author": {
+    "name": "Anton B",
+    "url": "https://github.com/slovozaslovo"
+  },
+  "homepage": "https://github.com/slovozaslovo/lesslop",
+  "repository": "https://github.com/slovozaslovo/lesslop",
+  "license": "MIT",
+  "keywords": [
+    "verification",
+    "evidence",
+    "hallucination",
+    "accuracy",
+    "citations"
+  ],
+  "skills": "./skills/"
+}

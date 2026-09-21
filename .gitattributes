@@ -1,0 +1,4 @@
+# The plugin's logic is Python; tests/run.sh is a harness, not the product.
+# Without this GitHub labels the repo "Shell" because the test script is a few
+# bytes larger than the hooks it exercises.
+tests/** linguist-detectable=false
