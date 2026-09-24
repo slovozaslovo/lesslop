@@ -25,29 +25,6 @@ Checkable answers get checked:
 on    44 [proof: wc -l hooks/evidence_rule.py]
 ```
 
-## The rule
-
-1. **Tag every claim.** Any statement about a file, command, output, tool,
-   service, test, number, date, name, or how an external library behaves must
-   carry `[proof: ...]` or `{unverified}` in the same sentence. No tag, no sentence.
-
-2. **No exceptions.** "Basic", "textbook", "well-known", "obvious", "standard",
-   "from training" are not verification. Anything recalled from memory is
-   `{unverified}` by definition — definitional facts and round numbers included.
-
-3. **Verify, don't defer.** "Want me to check?" is not a substitute for
-   checking. If verification is cheap, do it before answering.
-
-4. **When corrected.** Told you stated something unverified? Don't defend, don't
-   re-explain. Verify or tag, then re-answer.
-
-Two syntax rules. Markdown eats the tag otherwise:
-
-- Curly braces. `<unverified>` reads as an unknown HTML tag and the browser
-  drops it, so the warning disappears.
-- A space after the closing `]`. `]` touching `(` is link syntax:
-  `[proof: wc -l a.py](that is 44)` renders as a link.
-
 ## Install
 
 ### Claude Code
