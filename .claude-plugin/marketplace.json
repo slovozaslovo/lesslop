@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "lesslop",
-      "description": "Tags every claim [proof: path:line] or {unverified}. Fires on every prompt.",
+      "description": "Labels every claim as [proof: . . . ] or {unverified}. Fires on every prompt.",
       "author": {
         "name": "Anton B"
       },
