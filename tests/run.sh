@@ -3,11 +3,11 @@
 # Run: bash tests/run.sh
 set -u
 HOOK="$(cd "$(dirname "$0")/.." && pwd)/hooks/evidence_rule.py"
-pass=0; fail=0
+ok=0; bad=0
 
 check() { # check <name> <condition-exit-code>
-  if [ "$2" -eq 0 ]; then echo "  ok    $1"; pass=$((pass+1));
-  else echo "  FAIL  $1"; fail=$((fail+1)); fi
+  if [ "$2" -eq 0 ]; then echo "  ok    $1"; ok=$((ok+1));
+  else echo "  FAIL  $1"; bad=$((bad+1)); fi
 }
 
 echo "== evidence_rule ($HOOK)"
@@ -93,6 +93,6 @@ assert set(e)=={"command"}, e
 check "hooks-cursor.json matches Cursor schema" $?
 
 echo
-echo "pass=$pass fail=$fail"
-[ "$fail" -eq 0 ] || { echo "RESULT: FAIL"; exit 1; }
+echo "ok=$ok bad=$bad"
+[ "$bad" -eq 0 ] || { echo "RESULT: FAIL"; exit 1; }
 echo "RESULT: PASS"
