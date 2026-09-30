@@ -7,7 +7,8 @@ Every claim the agent writes carries a tag. Checked, or from memory.
 {unverified}                from memory
 ```
 
-Claude Code, OpenAI Codex, Cursor.
+Claude Code. For Codex and Cursor see [docs/codex.md](docs/codex.md) and
+[docs/cursor.md](docs/cursor.md).
 
 ## Why a hook
 
@@ -34,43 +35,6 @@ on    44 [proof: wc -l hooks/evidence_rule.py]
 /plugin install lesslop
 ```
 
-### Codex
-
-```
-codex plugin marketplace add slovozaslovo/lesslop
-codex plugin add lesslop@lesslop
-```
-
-### Cursor
-
-Untested. Cursor reads hooks from `~/.cursor/hooks.json` (global) or
-`<project>/.cursor/hooks.json`; this repo ships `.cursor-plugin/plugin.json` and
-`hooks/hooks-cursor.json`.
-
-### Claude desktop / web chat, without a terminal
-
-**Customize** → **Plugins** → **Browse plugins** → add `slovozaslovo/lesslop` as a
-marketplace → **Install**. A `.plugin` file (a zip of this repo) can also be
-uploaded directly.
-
-Plugins are not available on mobile.
-
-## How it works on each host
-
-| Host | Mechanism | Fires | Tested |
-|---|---|---|---|
-| Claude Code | `UserPromptSubmit` hook | every prompt | yes |
-| Codex | skill (`skills/lesslop/SKILL.md`) | every turn | yes |
-| Cursor | `sessionStart` hook | once per session | no |
-
-Codex gets a skill because it removed plugin-shipped hooks. `codex features list`
-reports `plugin_hooks  removed  false` while `hooks` stays stable. A skill is
-instructions the model follows, so the guarantee is weaker than the hook.
-
-Cursor fires once per session. Its per-prompt event `beforeSubmitPrompt` cannot
-inject text. Only `sessionStart`, `postToolUse` and `postToolUseFailure` carry
-`additional_context`, so the rule can decay over a long session.
-
 ## Requirements
 
 `python3` on `PATH`. Stdlib only. No install step, no network.
@@ -84,14 +48,10 @@ rule. It fails loudly rather than emitting empty output.
 |---|---|
 | `.claude-plugin/plugin.json` | Claude Code manifest |
 | `.claude-plugin/marketplace.json` | lets others `marketplace add` this repo |
-| `.codex-plugin/plugin.json` | Codex manifest, points at `skills/` |
-| `.cursor-plugin/plugin.json` | Cursor manifest (untested) |
 | `hooks/rule.py` | the rule text, single source for every host |
 | `hooks/hooks.json` | binds `UserPromptSubmit` (Claude Code) |
 | `hooks/evidence_rule.py` | Claude Code envelope |
-| `hooks/hooks-cursor.json` | binds `sessionStart` (Cursor) |
-| `hooks/evidence_rule_cursor.py` | Cursor envelope |
-| `skills/lesslop/SKILL.md` | the same rule, as a Codex skill |
+| `skills/lesslop/SKILL.md` | the same rule, as a skill |
 | `tests/run.sh` | contract tests |
 
 ## Tests

@@ -8,6 +8,13 @@ the major version is `0`, breaking changes ship in minor bumps.
 
 Every released version has a git tag of the form `lesslop--vX.Y.Z`.
 
+## [1.0.1] — 2026-09-30
+
+### Changed
+- The README covers Claude Code only. Codex and Cursor moved to
+  `docs/codex.md` and `docs/cursor.md`.
+- Removed the Claude desktop / web install section: hooks do not run there.
+
 ## [1.0.0] — 2026-09-30
 
 ### Added
@@ -33,5 +40,6 @@ Every released version has a git tag of the form `lesslop--vX.Y.Z`.
   text; only `sessionStart`, `postToolUse` and `postToolUseFailure` carry
   `additional_context`. Its envelope is a flat `{"additional_context": "..."}`.
 
+[1.0.1]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v1.0.1
 [1.0.0]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v1.0.0
 [0.6.0]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v0.6.0
