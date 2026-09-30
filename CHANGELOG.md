@@ -8,6 +8,12 @@ the major version is `0`, breaking changes ship in minor bumps.
 
 Every released version has a git tag of the form `lesslop--vX.Y.Z`.
 
+## [1.0.2] — 2026-09-30
+
+### Added
+- `PRIVACY.md`, linked from `plugin.json` as `privacyPolicyUrl`.
+- `displayName` set to `lesslop`, lowercase.
+
 ## [1.0.1] — 2026-09-30
 
 ### Changed
@@ -40,6 +46,7 @@ Every released version has a git tag of the form `lesslop--vX.Y.Z`.
   text; only `sessionStart`, `postToolUse` and `postToolUseFailure` carry
   `additional_context`. Its envelope is a flat `{"additional_context": "..."}`.
 
+[1.0.2]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v1.0.2
 [1.0.1]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v1.0.1
 [1.0.0]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v1.0.0
 [0.6.0]: https://github.com/slovozaslovo/lesslop/releases/tag/lesslop--v0.6.0

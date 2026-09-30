@@ -1,6 +1,7 @@
 {
   "name": "lesslop",
-  "version": "1.0.1",
+  "displayName": "lesslop",
+  "version": "1.0.2",
   "description": "Labels every claim as [proof: . . . ] or {unverified}. Fires on every prompt.",
   "author": {
     "name": "Anton B",
@@ -9,6 +10,7 @@
   "homepage": "https://github.com/slovozaslovo/lesslop",
   "repository": "https://github.com/slovozaslovo/lesslop",
   "license": "MIT",
+  "privacyPolicyUrl": "https://github.com/slovozaslovo/lesslop/blob/main/PRIVACY.md",
   "keywords": [
     "verification",
     "evidence",
