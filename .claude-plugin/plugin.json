@@ -1,6 +1,6 @@
 {
   "name": "lesslop",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Labels every claim as [proof: . . . ] or {unverified}. Fires on every prompt.",
   "author": {
     "name": "Anton B",
