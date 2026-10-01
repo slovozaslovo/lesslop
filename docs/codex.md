@@ -7,13 +7,19 @@ codex plugin marketplace add slovozaslovo/lesslop
 codex plugin add lesslop@lesslop
 ```
 
+Then trust the hook. Codex skips a plugin's hooks until you review them: run
+`/hooks` in the Codex CLI and trust the `UserPromptSubmit` hook from lesslop.
+After a plugin update that changes the hook, Codex asks again.
+
 ## How it works
 
-Codex gets a skill because it removed plugin-shipped hooks. `codex features list`
-reports `plugin_hooks  removed  false` while `hooks` stays stable. A skill is
-instructions the model follows, so the guarantee is weaker than the hook.
+Codex loads the same `UserPromptSubmit` hook as Claude Code, from
+`hooks/hooks.json`, and injects the rule on every prompt. Tested on Codex CLI
+0.155.1. The plugin also ships the rule as a skill.
 
 | Path | Role |
 |---|---|
 | `.codex-plugin/plugin.json` | Codex manifest, points at `skills/` |
-| `skills/lesslop/SKILL.md` | the same rule, as a Codex skill |
+| `hooks/hooks.json` | binds `UserPromptSubmit` |
+| `hooks/evidence_rule.py` | prints the rule |
+| `skills/lesslop/SKILL.md` | the same rule, as a skill |
