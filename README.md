@@ -60,10 +60,13 @@ rule. It fails loudly rather than emitting empty output.
 bash tests/run.sh
 ```
 
-Nine checks: exit status, JSON validity, each host's envelope, both tags present,
+The suite checks exit status, JSON validity, each host's envelope, both tags,
 no `](` sequence inside the rule, and imports restricted to `json`, `sys` and
-`rule`. Imports are read off the parsed AST, not the source text. One check
-compares hosts byte for byte, so the wording cannot drift between them.
+`rule`. Imports are read off the parsed AST, not the source text, for every
+hook module. Hosts must emit `rule.RULE` and nothing else, ignore stdin, and
+write nothing to stderr. The Claude and Cursor bindings, the manifest version,
+and the skill's obligations are checked the same way, so the wording cannot
+drift between them.
 
 ## Off switch
 
