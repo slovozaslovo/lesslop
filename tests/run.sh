@@ -68,7 +68,6 @@ check "cursor hook exits 0" $rc
 echo "$COUT" | python3 -c '
 import json,sys
 d=json.load(sys.stdin)
-assert set(d) <= {"additional_context","env"}, d.keys()
 assert isinstance(d["additional_context"], str) and d["additional_context"]
 ' 2>/dev/null
 check "cursor envelope is flat additional_context" $?
@@ -98,14 +97,21 @@ python3 -c '
 import json, sys
 sys.path.insert(0, sys.argv[1])
 from rule import RULE
-def one(raw, context):
+def load(raw):
     dec = json.JSONDecoder()
     obj, idx = dec.raw_decode(raw)
     assert raw[idx:].strip() == "", "trailing data after JSON"
-    assert context(obj) == RULE, "envelope is not rule.RULE"
-one(sys.argv[2], lambda o: o["hookSpecificOutput"]["additionalContext"])
-one(sys.argv[3], lambda o: o["additional_context"])
-assert set(json.loads(sys.argv[3])) == {"additional_context"}
+    return obj
+claude = load(sys.argv[2])
+cursor = load(sys.argv[3])
+assert set(claude) == {"suppressOutput", "hookSpecificOutput"}, sorted(claude)
+inner = claude["hookSpecificOutput"]
+assert set(inner) == {"hookEventName", "additionalContext"}, sorted(inner)
+assert claude["suppressOutput"] is True
+assert inner["hookEventName"] == "UserPromptSubmit"
+assert inner["additionalContext"] == RULE
+assert set(cursor) == {"additional_context"}, sorted(cursor)
+assert cursor["additional_context"] == RULE
 ' "$(cd "$(dirname "$0")/.." && pwd)/hooks" "$OUT" "$COUT" 2>/dev/null
 check "each host injects rule.RULE and nothing else" $?
 
@@ -214,8 +220,8 @@ assert len(set(vs.values())) == 1, vs
 ' "$ROOT" 2>/dev/null
 check "plugin manifests agree on name and version" $?
 
-# Codex has no hook. The skill is the only copy of the rule it receives, and it
-# is markdown rather than the hook string, so compare obligations, not bytes.
+# The skill is markdown rather than the hook string, so compare obligations, not bytes.
+# The frontmatter description repeats the tags; the body has to state them too.
 python3 -c '
 import sys
 sys.path.insert(0, sys.argv[1])
@@ -224,6 +230,7 @@ skill = open(sys.argv[2]).read()
 parts = skill.split("---")
 assert len(parts) >= 3 and parts[0] == "", "skill is missing frontmatter"
 assert "name: \"lesslop\"" in parts[1], parts[1]
+body = "---".join(parts[2:])
 needles = (
     "[proof: ",
     "{unverified}",
@@ -237,9 +244,9 @@ needles = (
 )
 for needle in needles:
     assert needle in RULE, needle
-    assert needle in skill, "skill dropped: %s" % needle
+    assert needle in body, "skill body dropped: %s" % needle
 for needle in ("5432", "wc -l hooks/evidence_rule.py"):
-    assert needle in skill, "skill dropped example: %s" % needle
+    assert needle in body, "skill body dropped example: %s" % needle
 assert "](" not in skill, "skill contains ](  -- Markdown link collision"
 ' "$ROOT/hooks" "$ROOT/skills/lesslop/SKILL.md" 2>/dev/null
 check "skill states the same obligations as rule.RULE" $?
